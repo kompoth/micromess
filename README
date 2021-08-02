@@ -1,7 +1,7 @@
-micromess - a simple X popup 
-============================
+micromess - a simple X pop-up 
+=============================
 
-micromess spawns a small popup window with dimensions adjusted to its contents.
+micromess spawns a small pop-up window with dimensions adjusted to its contents.
 Its main aim is to get rid of ineffective and space wasting bars usage.
 
 
@@ -14,12 +14,12 @@ Edit the first lines of the Makefile to fit your system and run:
 
 Basic usage
 -----------
-This should spawn a popup message in the right-bottom corner of active monitor,
+This should spawn a pop-up message in the right-bottom corner of active monitor,
 that would stay alive for 2 seconds: 
 
   (printf "onelinestr\n"; sleep 2) | umess -rb
 
-User can specify background and foreground color, font (in Xft notation), popup
-position. With no option provided popup appears in the middle of the screen.
+User can specify background and foreground color, font (in Xft notation), pop-up
+position. With no option provided pop-up appears in the middle of the screen.
 
 See manpage for more information.
