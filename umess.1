@@ -1,0 +1,47 @@
+.TH XPICK 1 "August 2021" "version 0"
+.SH NAME
+umess \- a simple X popup 
+.SH SYNOPSIS
+.B umess 
+.RB [ \-{b|t}{l|r} ]
+.RB [ \-f 
+.IR font ] 
+.RB [ \-F
+.IR fgcolor] 
+.RB [ \-B 
+.IR bgcolor ] 
+.P
+.SH DESCRIPTION
+.B umess 
+spawns a small popup window with dimensions adjusted to its contents.
+Output data is passed to micromess stdin as an output of a user script. There 
+are nine possible popup positions, manual coordinates setting is not supported. 
+Its main aim is to get rid of bars and panels usage as they waste to much place,
+distract user and, on the other hand, fail to get user's attention in urgent
+cases, such as critical battery discharge.
+.SH OPTIONS
+.TP
+.B \-{b|t}|{l|p}
+defines popup vertical (bottom or top) and horizontal (left or right) position. 
+With no option provided popup appears in the middle of the screen.
+.TP
+.BI \-f " font"
+defines message string font. It should be provided in the Xft notation.
+.TP
+.BI \-F|B " fgcolor|bgcolor"
+define message string and popup background colors. 
+.IR #RGB ,
+.IR #RRGGBB ,
+and X color names are supported.
+Keep in mind that hash symbol is reserved in shell, so hash color codes should be
+enclosed in quotes.
+.TP
+.B \-h
+shows usage message and exits.
+.SH SEE ALSO
+\fBumess\fR is mostly inspired by \fIlemonbar\fR and \fIdmenu\fR.
+\fIehhov\fR\'s help was invaluable.
+.SH AUTHOR
+Written by Vasily Negrebetskiy (kmiziz.com@gmail.com).
+.P
+The project is located at https://github.com/Negrebetskiy/micromess

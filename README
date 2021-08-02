@@ -1,0 +1,30 @@
+micromess - a simple X popup 
+============================
+
+micromess spawns a small popup window with dimensions adjusted to its contents.
+Its main aim is to get rid of ineffective and space wasting bars usage.
+
+
+Installation
+------------
+Edit the first lines of Makefile to fit your system and run
+
+    make install
+
+
+Basic usage
+-----------
+This should spawn a popup message in the right-bottom corner of active monitor,
+that would stay alive for 2 seconds: 
+
+  (printf "onelinestr\n"; sleep 2) | umess -rb
+
+User can specify background and foreground color, font (in Xft notation), popup
+position. With no option provided popup appears in the middle of the screen.
+
+
+Credits
+-------
+micromess is mostly inspired with lemonbar and dmenu.
+
+See manpage for more information.
