@@ -30,7 +30,7 @@ XftFont *font;
 void
 usage(FILE *output)
 {
-  fprintf(output, "usage: %s [-h|{b|t}|{l|r} [-f font] [-F fgcolor] " \
+  fprintf(output, "usage: %s [-h|{b|t}|{l|r}] [-f font] [-F fgcolor] " \
                   "[-B bgcolor]\n", cmd);
 }
 
