@@ -7,7 +7,7 @@ Its main aim is to get rid of ineffective and space wasting bars usage.
 
 Installation
 ------------
-Edit the first lines of the Makefile to fit your system and run
+Edit the first lines of the Makefile to fit your system and run:
 
     make install
 
