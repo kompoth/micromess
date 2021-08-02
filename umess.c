@@ -16,6 +16,7 @@
 char *cmd;
 int done;
 int mx, my, mw, mh;  // focused monitor coords and dims
+int die_on_click;
 int loc_hor, loc_ver;
 int screen;
 Display *dpy;
@@ -30,7 +31,7 @@ XftFont *font;
 void
 usage(FILE *output)
 {
-  fprintf(output, "usage: %s [-h|{b|t}|{l|r}] [-f font] [-F fgcolor] " \
+  fprintf(output, "usage: %s [-{b|t}|{l|r}|h|d] [-f font] [-F fgcolor] " \
                   "[-B bgcolor]\n", cmd);
 }
 
@@ -61,8 +62,8 @@ get_focus(int *mx, int *my, int *mw, int *mh)
 {
   XRRMonitorInfo *mons;
   int nmons; 
-  Window winr, rootr;  // win values, returned by xrandr
-  int wx, wy, rx, ry;
+  Window winr, rootr; 
+  int rx, ry, wx, wy;
   unsigned int mask;
   int i;
   int index = -1;
@@ -136,7 +137,7 @@ spawn_win(const char *colordescr)
   XAllocColor(dpy, cmap, &wincolor);
   XSetWindowBackground(dpy, win, wincolor.pixel);
   
-  XSelectInput(dpy, win, ExposureMask);
+  XSelectInput(dpy, win, ExposureMask|ButtonPressMask);
   XMapRaised(dpy, win);
   XFlush(dpy);
 }
@@ -214,6 +215,12 @@ event_loop()
       XNextEvent(dpy, &ev);
       if (ev.type == Expose && ev.xexpose.count == 0) 
         redraw = 1;
+      else if (ev.type == ButtonPress && ev.xbutton.button == Button1)
+        if (die_on_click) 
+          {
+            done = 1;
+            break;
+          }
     }
     
     /* Update popup */
@@ -247,16 +254,20 @@ main(int argc, char **argv)
   cmd = argv[0];
   loc_hor = 1;  // left: 0,  center: 1,  right: 2
   loc_ver = 1;  //  top: 0,  center: 1, bottom: 2
+  die_on_click = 0;
   fontname = "monospace";
   fghex = "#000000";
   bghex = "#ffffff";
-  while ((ch = getopt(argc, argv, "htblrf:F:B:")) != -1) 
+  while ((ch = getopt(argc, argv, "tblrf:F:B:dh")) != -1) 
   {
     switch (ch)
     {
       case 'h':
         usage(stdout);
         return 0;
+      case 'd':
+        die_on_click = 1;
+        break;
       case 'l':
         loc_hor = 0;
         break;
