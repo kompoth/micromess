@@ -20,7 +20,11 @@ install: all
 ${PROJ}: ${PROJ}.c
 	${CC} ${CFLAGS} ${LIBS} ${INCS} $< -o $@
 
+uninstall:
+	rm -f ${PREFIX}/bin/${PROJ}
+	rm -f ${MANPREFIX}/man1/${PROJ}.1
+
 clean:
 	rm -f ${PROJ}
 
-.PHONY: all clean
+.PHONY: all clean uninstall
