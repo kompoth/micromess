@@ -22,9 +22,4 @@ that would stay alive for 2 seconds:
 User can specify background and foreground color, font (in Xft notation), popup
 position. With no option provided popup appears in the middle of the screen.
 
-
-Credits
--------
-micromess is mostly inspired with lemonbar and dmenu.
-
 See manpage for more information.
