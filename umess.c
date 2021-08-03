@@ -148,11 +148,10 @@ redraw_win(const char *text, const int text_size)
   XGlyphInfo ext;
   int width, height, px, py;
 
-
   XftTextExtentsUtf8(dpy, font, (const FcChar8 *)text, text_size, &ext);
   width = ext.width + 2 * XOFFSET;
   height = ext.height + 2 * YOFFSET;
-  px = loc_hor * (mw - width) / 2;
+  px = mx + loc_hor * (mw - width) / 2;
   py = my + loc_ver * (mh - height) / 2;
 
   XMoveWindow(dpy, win, px, py);
