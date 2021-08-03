@@ -27,6 +27,14 @@ XftDraw *draw;
 XftColor color;
 XftFont *font;
 
+void usage(FILE *output);
+void finisher(int signal);
+int init_x();
+int get_focus(int *mx, int *my, int *mw, int *mh);
+int init_xft(const char *fontdescr, const char *colordescr);
+void spawn_win(const char *colordescr);
+void redraw_win(const char *text, const int text_size);
+void event_loop();
 
 void
 usage(FILE *output)
@@ -69,7 +77,7 @@ get_focus(int *mx, int *my, int *mw, int *mh)
   int index = -1;
   
   // get monitors info
-  mons = XRRGetMonitors(dpy, root, True, &nmons);
+  mons = XRRGetMonitors(dpy, root, 1, &nmons);
   if (nmons == -1) 
   {
     fprintf(stderr, "Failed to detect monitors.\n");
@@ -153,14 +161,13 @@ redraw_win(const char *text, const int text_size)
   height = ext.height + 2 * YOFFSET;
   px = mx + loc_hor * (mw - width) / 2;
   py = my + loc_ver * (mh - height) / 2;
-
+ 
   XMoveWindow(dpy, win, px, py);
   XResizeWindow(dpy, win, width, height); 
   XftDrawStringUtf8(draw, &color, font, XOFFSET, height - YOFFSET, 
                     (const FcChar8 *)text, text_size);
   XFlush(dpy);
 }
-
 
 void
 event_loop() 
