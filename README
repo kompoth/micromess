@@ -1,7 +1,7 @@
 micromess - a simple X pop-up 
 =============================
 
-micromess spawns a small pop-up window with dimensions adjusted to its contents.
+umess spawns a small pop-up window with dimensions adjusted to its contents.
 Its main aim is to get rid of ineffective and space wasting bars usage.
 
 
