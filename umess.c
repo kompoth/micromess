@@ -10,8 +10,6 @@
 #include <X11/extensions/Xrandr.h>
 
 #define ISIN(x,y,x0,y0,w,h) x>=x0 && x<=x0+w && y>=y0 && y<=y0+h
-#define XOFFSET 12 
-#define YOFFSET 12
 
 char *cmd;
 int done;
@@ -153,18 +151,23 @@ spawn_win(const char *colordescr)
 void 
 redraw_win(const char *text, const int text_size) 
 {
-  XGlyphInfo ext;
+  XGlyphInfo text_info;
   int width, height, px, py;
+  int xoff, yoff;
 
-  XftTextExtentsUtf8(dpy, font, (const FcChar8 *)text, text_size, &ext);
-  width = ext.width + 2 * XOFFSET;
-  height = ext.height + 2 * YOFFSET;
+  XftTextExtentsUtf8(dpy, font, (const FcChar8 *)"c", 1, &text_info);
+  xoff = text_info.width;
+  yoff = text_info.height;
+  
+  XftTextExtentsUtf8(dpy, font, (const FcChar8 *)text, text_size, &text_info);
+  width = text_info.width + 2 * xoff;
+  height = text_info.height + 2 * yoff;
   px = mx + loc_hor * (mw - width) / 2;
   py = my + loc_ver * (mh - height) / 2;
  
   XMoveWindow(dpy, win, px, py);
   XResizeWindow(dpy, win, width, height); 
-  XftDrawStringUtf8(draw, &color, font, XOFFSET, height - YOFFSET, 
+  XftDrawStringUtf8(draw, &color, font, xoff, height - yoff, 
                     (const FcChar8 *)text, text_size);
   XFlush(dpy);
 }
