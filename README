@@ -22,4 +22,7 @@ that would stay alive for 2 seconds:
 User can specify background and foreground color, font (in Xft notation), pop-up
 position. With no option provided pop-up appears in the middle of the screen.
 
+An example of umess usage (low battery warning): 
+https://github.com/Negrebetskiy/dotfiles/blob/master/bin/batteryloop 
+
 See manpage for more information.
