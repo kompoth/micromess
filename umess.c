@@ -219,7 +219,7 @@ event_loop()
     }
     
     /* X11 event */
-    if (fds[1].revents & POLLIN)
+    while (fds[1].revents & POLLIN)
     {
       XNextEvent(dpy, &ev);
       if (ev.type == Expose && ev.xexpose.count == 0) 
@@ -232,6 +232,8 @@ event_loop()
           }
     }
     
+    if (done) break;
+
     /* Update popup */
     if (redraw) {
       redraw_win(input, length);
