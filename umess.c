@@ -133,7 +133,7 @@ spawn_win(const char *colordescr)
   XColor wincolor;
   XSetWindowAttributes swa;
 
-  swa.override_redirect = True;  // fixed position, unkillable from wm
+  swa.override_redirect = True;  // unmanageable from wm
   swa.background_pixel = XWhitePixel(dpy, screen);
   win = XCreateWindow(dpy, root, 
                       0, 0, 1, 1, 1,  // geometry now doesn't matter 
