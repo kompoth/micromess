@@ -220,19 +220,23 @@ event_loop()
     }
     
     /* X11 event */
-    if (fds[1].revents & POLLIN)
+    while (fds[1].revents & POLLIN)
     {
       XNextEvent(dpy, &ev);
+      
       if (ev.type == Expose && ev.xexpose.count == 0) 
         redraw = 1;
-      else if (ev.type == ButtonPress && ev.xbutton.button == Button1)
-        if (die_on_click) 
-          {
-            done = 1;
-            break;
-          }
+      
+      if (!die_on_click)
+        break;
+      
+      if (ev.type == ButtonPress && ev.xbutton.button == Button1)
+      {
+        done = 1;
+        break;
+      }
     }
-    
+
     if (done) break;
 
     /* Update popup */
