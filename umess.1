@@ -1,16 +1,17 @@
-.TH XPICK 1 "August 2021" "version 0"
+.TH UMESS 1 "October 2021" "version 1"
 .SH NAME
-umess \- a simple X pop-up 
+umess - a simple X pop-up 
+.
 .SH SYNOPSIS
 .B umess 
-.RB [ \-{b|t}{l|r} ]
-.RB [ \-f 
+.RB [ -{b|t}{l|r} ]
+.RB [ -f 
 .IR font ] 
-.RB [ \-F
+.RB [ -F
 .IR fgcolor] 
-.RB [ \-B 
+.RB [ -B 
 .IR bgcolor ] 
-.P
+.
 .SH DESCRIPTION
 .B umess 
 spawns a small pop-up window with dimensions adjusted to its contents.
@@ -19,32 +20,39 @@ possible pop-up positions, manual coordinates setting is not supported.
 Program's main aim is to get rid of bars and panels usage as they waste to much
 place, distract user and, on the other hand, fail to get user's attention in 
 urgent cases, such as critical battery discharge.
+.
 .SH OPTIONS
 .TP
-.B \-{b|t}|{l|p}
+.B -{b|t}|{l|p}
 defines pop-up vertical (bottom or top) and horizontal (left or right) position. 
 With no option provided pop-up appears in the middle of the screen.
 .TP
-.BI \-f " font"
+.BI -f " font"
 defines message string font. It should be provided in the Xft notation.
 .TP
-.BI \-F|B " fgcolor|bgcolor"
+.BI -F|B " fgcolor|bgcolor"
 define message string and pop-up background colors. 
 .IR #RGB ,
 .IR #RRGGBB ,
 and X color names are supported.
-Keep in mind that hash symbol is reserved in shell, so hash color codes should be
-enclosed in quotes.
+Keep in mind that hash symbol is reserved in shell,
+so hash color codes should be enclosed in quotes.
 .TP
-.B \-d
-dies on left mouse button click. Usefull for important notifications that 
-\fImust\fR be seen.
+.B -d
+dies on left mouse button click.
+Usefull for important notifications that \fImust\fR be seen.
 .TP
-.B \-h
+.B -h
 shows usage message and exits.
+.TP
+.BI -m " monitor"
+defines name of monitor on which notification will be displayed. 
+By default monitor pointed by a mouse coursor is used.
+.
 .SH SEE ALSO
 \fBumess\fR is mostly inspired by \fIlemonbar\fR and \fIdmenu\fR.
 \fIehhov\fR\'s help was invaluable.
+.
 .SH AUTHOR
 Written by Vasily Negrebetskiy (kmiziz.com@gmail.com).
 .P

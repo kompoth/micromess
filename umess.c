@@ -9,13 +9,18 @@
 #include <X11/Xft/Xft.h>
 #include <X11/extensions/Xrandr.h>
 
+#define OFFSET 2
 #define ISIN(x,y,x0,y0,w,h) x>=x0 && x<=x0+w && y>=y0 && y<=y0+h
 
+/* Micromess specific variables */
 char *cmd;
 int done;
-int mx, my, mw, mh;  // focused monitor coords and dims
 int die_on_click;
 int loc_hor, loc_ver;
+char *mon_name;
+int mx, my, mw, mh;
+
+/* General variables */
 int screen;
 Display *dpy;
 Window root, win;
@@ -28,17 +33,17 @@ XftFont *font;
 void usage(FILE *output);
 void finisher(int signal);
 int init_x();
-int get_focus(int *mx, int *my, int *mw, int *mh);
+int get_monitor();
 int init_xft(const char *fontdescr, const char *colordescr);
-void spawn_win(const char *colordescr);
-void redraw_win(const char *text, const int text_size);
+void spawn_window(const char *colordescr);
+void redraw_window(const char *text, const int text_size);
 void event_loop();
 
 void
 usage(FILE *output)
 {
   fprintf(output, "usage: %s [-{b|t}|{l|r}|h|d] [-f font] [-F fgcolor] " \
-                  "[-B bgcolor]\n", cmd);
+                  "[-B bgcolor] [-m MONITOR]\n", cmd);
 }
 
 void
@@ -64,17 +69,19 @@ init_x()
 }
 
 int 
-get_focus(int *mx, int *my, int *mw, int *mh) 
-{
+get_monitor()
+{ 
   XRRMonitorInfo *mons;
-  int nmons; 
+  int nmons;
   Window winr, rootr; 
   int rx, ry, wx, wy;
   unsigned int mask;
   int i;
-  int index = -1;
-  
-  // get monitors info
+  int names_match;
+  int pos_match;
+  int ind = -1;
+
+  /* Get monitors data */
   mons = XRRGetMonitors(dpy, root, 1, &nmons);
   if (nmons == -1) 
   {
@@ -82,32 +89,26 @@ get_focus(int *mx, int *my, int *mw, int *mh)
     return 1; 
   }
   
-  // determine the focused window via mouse pointer
-  if (XQueryPointer(dpy, root, &rootr, &winr, &rx, &ry, &wx, &wy, &mask))
+  /* Get monitor by name or by mouse pointer */
+  XQueryPointer(dpy, root, &rootr, &winr, &rx, &ry, &wx, &wy, &mask);
+  for (i = 0; i < nmons; i++) 
   {
-    // get focused monitor index
-    for (i = 0; i < nmons; i++) 
+    names_match = !strcmp(XGetAtomName(dpy, mons[i].name), mon_name);
+    pos_match = ISIN(rx, ry, mons[i].x, mons[i].y, mons[i].width, mons[i].height);
+    if (names_match || pos_match) 
     {
-      if (ISIN(rx, ry, mons[i].x, mons[i].y, mons[i].width, mons[i].height)) 
-      {
-        index = i;
-        break;
-      }  
-    } 
-  }
+      ind = i;
+      break;
+    }  
+  } 
 
-  if (index < 0)
-  {
-    fprintf(stderr, "Failed to find active monitor.\n");
-    return 1;
-  }
-
-  *mx = mons[index].x;
-  *my = mons[index].y;
-  *mw = mons[index].width;
-  *mh = mons[index].height;
+  /* Write monitor position and dimensions */
+  mx = mons[ind].x;
+  my = mons[ind].y;
+  mw = mons[ind].width;
+  mh = mons[ind].height;
   return 0;
-}
+} 
 
 int
 init_xft(const char *fontdescr, const char *colordescr)
@@ -128,7 +129,7 @@ init_xft(const char *fontdescr, const char *colordescr)
 }
 
 void
-spawn_win(const char *colordescr)
+spawn_window(const char *colordescr)
 {
   XColor wincolor;
   XSetWindowAttributes swa;
@@ -149,25 +150,25 @@ spawn_win(const char *colordescr)
 }
 
 void 
-redraw_win(const char *text, const int text_size) 
+redraw_window(const char *text, const int text_size) 
 {
   XGlyphInfo text_info;
   int width, height, px, py;
-  int xoff, yoff;
+  int xmargin, ymargin;
 
-  XftTextExtentsUtf8(dpy, font, (const FcChar8 *)"c", 1, &text_info);
-  xoff = text_info.width;
-  yoff = text_info.height;
-  
+  XftTextExtentsUtf8(dpy, font, (const FcChar8 *)"\t", 1, &text_info);
+  xmargin = text_info.width;
+  ymargin = .5 * text_info.height;
+
   XftTextExtentsUtf8(dpy, font, (const FcChar8 *)text, text_size, &text_info);
-  width = text_info.width + 2 * xoff;
-  height = text_info.height + 2 * yoff;
-  px = mx + loc_hor * (mw - width) / 2;
-  py = my + loc_ver * (mh - height) / 2;
+  width = text_info.width + 2 * xmargin;
+  height = text_info.height + 2 * ymargin;
+  px = mx + .5 * loc_hor * (mw - width) + OFFSET * (1 - loc_hor);
+  py = my + .5 * loc_ver * (mh - height) + OFFSET * (1 - loc_ver);
  
   XMoveWindow(dpy, win, px, py);
   XResizeWindow(dpy, win, width, height); 
-  XftDrawStringUtf8(draw, &color, font, xoff, height - yoff, 
+  XftDrawStringUtf8(draw, &color, font, xmargin, height - ymargin, 
                     (const FcChar8 *)text, text_size);
   XFlush(dpy);
 }
@@ -219,7 +220,7 @@ event_loop()
     }
     
     /* X11 event */
-    while (fds[1].revents & POLLIN)
+    if (fds[1].revents & POLLIN)
     {
       XNextEvent(dpy, &ev);
       if (ev.type == Expose && ev.xexpose.count == 0) 
@@ -236,7 +237,7 @@ event_loop()
 
     /* Update popup */
     if (redraw) {
-      redraw_win(input, length);
+      redraw_window(input, length);
       redraw = 0;
     }
   }
@@ -260,16 +261,16 @@ main(int argc, char **argv)
     return 1;
   }
 
-
   /* Parse args */
   cmd = argv[0];
   loc_hor = 1;  // left: 0,  center: 1,  right: 2
   loc_ver = 1;  //  top: 0,  center: 1, bottom: 2
+  mon_name = "";
   die_on_click = 0;
   fontname = "monospace";
   fghex = "#000000";
   bghex = "#ffffff";
-  while ((ch = getopt(argc, argv, "tblrf:F:B:dh")) != -1) 
+  while ((ch = getopt(argc, argv, "tblrf:F:B:m:dh")) != -1) 
   {
     switch (ch)
     {
@@ -300,6 +301,9 @@ main(int argc, char **argv)
       case 'B':
         bghex = optarg; 
         break;
+      case 'm':
+        mon_name = optarg;
+        break;
       default:
         usage(stderr);
         return 1;
@@ -309,9 +313,9 @@ main(int argc, char **argv)
   /* Prepare X, window, Xft */
   if (init_x())
     goto nowin;
-  if (get_focus(&mx, &my, &mw, &mh))
+  if (get_monitor())
     goto nowin;
-  spawn_win(bghex);
+  spawn_window(bghex);
   if (init_xft(fontname, fghex))
     goto nodraw;
 

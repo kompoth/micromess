@@ -30,4 +30,5 @@ See manpage for more information.
 
 Problems
 --------
+- non dying on the first click
 - strange offset behaviour
