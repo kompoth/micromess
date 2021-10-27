@@ -29,6 +29,13 @@ urgent cases, such as critical battery discharge.
 defines pop-up vertical (bottom or top) and horizontal (left or right) position. 
 With no option provided pop-up appears in the middle of the screen.
 .TP
+.B -d
+dies on left mouse button click.
+Usefull for important notifications that \fImust\fR be seen.
+.TP
+.B -h
+shows usage message and exits.
+.TP
 .BI -f " font"
 defines message string font. It should be provided in the Xft notation.
 .TP
@@ -39,13 +46,6 @@ define message string and pop-up background colors.
 and X color names are supported.
 Keep in mind that hash symbol is reserved in shell,
 so hash color codes should be enclosed in quotes.
-.TP
-.B -d
-dies on left mouse button click.
-Usefull for important notifications that \fImust\fR be seen.
-.TP
-.B -h
-shows usage message and exits.
 .TP
 .BI -m " monitor"
 defines name of monitor on which notification will be displayed. 
