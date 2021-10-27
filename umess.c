@@ -10,6 +10,7 @@
 #include <X11/extensions/Xrandr.h>
 
 #define OFFSET 2
+#define MARGIN .5
 #define ISIN(x,y,x0,y0,w,h) x>=x0 && x<=x0+w && y>=y0 && y<=y0+h
 
 /* Micromess specific variables */
@@ -156,9 +157,8 @@ redraw_window(const char *text, const int text_size)
   int width, height, px, py;
   int xmargin, ymargin;
 
-  XftTextExtentsUtf8(dpy, font, (const FcChar8 *)"\t", 1, &text_info);
-  xmargin = text_info.width;
-  ymargin = .5 * text_info.height;
+  xmargin = MARGIN * font->max_advance_width;
+  ymargin = MARGIN * font->height;
 
   XftTextExtentsUtf8(dpy, font, (const FcChar8 *)text, text_size, &text_info);
   width = text_info.width + 2 * xmargin;
