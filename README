@@ -7,7 +7,7 @@ Its main aim is to get rid of ineffective and space wasting bars usage.
 
 Installation
 ------------
-Edit the first lines of the Makefile to fit your system and run:
+Edit the first lines of the Makefile to fit your preferences and run:
 
     make install
 
@@ -21,14 +21,13 @@ that would stay alive for 2 seconds:
 
 User can specify background and foreground color, font (in Xft notation), pop-up
 position. With no option provided pop-up appears in the middle of the screen.
-
-An example of umess usage (low battery warning): 
-https://github.com/Negrebetskiy/dotfiles/blob/master/bin/ubatloop 
-
 See manpage for more information.
 
 
-Problems
+Examples
 --------
-- non dying on the first click
-- strange offset behaviour
+Basic indicators (bash):
+https://github.com/Negrebetskiy/dotfiles/blob/master/bin/uinfo
+
+Low battery warning (perl):
+https://github.com/Negrebetskiy/dotfiles/blob/master/bin/ubatloop 
