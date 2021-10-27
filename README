@@ -14,7 +14,7 @@ Edit the first lines of the Makefile to fit your preferences and run:
 
 Basic usage
 -----------
-This should spawn a pop-up message in the right-bottom corner of active monitor,
+Following spawns a pop-up message in the right-bottom corner of active monitor,
 that would stay alive for 2 seconds: 
 
   (printf "onelinestr\n"; sleep 2) | umess -rb
