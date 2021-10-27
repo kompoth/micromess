@@ -43,8 +43,8 @@ void event_loop();
 void
 usage(FILE *output)
 {
-  fprintf(output, "usage: %s [-{b|t}|{l|r}|h|d] [-f font] [-F fgcolor] " \
-                  "[-B bgcolor] [-m MONITOR]\n", cmd);
+  fprintf(output, "usage: %s [-{b|t}{l|r}|d|h] [-f font] "
+                  "[-F fgcolor] [-B bgcolor] [-m monitor]\n", cmd);
 }
 
 void
