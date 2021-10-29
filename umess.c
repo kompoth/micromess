@@ -78,8 +78,8 @@ get_monitor()
   int rx, ry, wx, wy;
   unsigned int mask;
   int i;
-  int names_match;
-  int pos_match;
+  int match;
+  int name_not_given;
   int ind = -1;
 
   /* Get monitors data */
@@ -92,11 +92,15 @@ get_monitor()
   
   /* Get monitor by name or by mouse pointer */
   XQueryPointer(dpy, root, &rootr, &winr, &rx, &ry, &wx, &wy, &mask);
+  name_not_given = !strcmp(mon_name, "");
   for (i = 0; i < nmons; i++) 
   {
-    names_match = !strcmp(XGetAtomName(dpy, mons[i].name), mon_name);
-    pos_match = ISIN(rx, ry, mons[i].x, mons[i].y, mons[i].width, mons[i].height);
-    if (names_match || pos_match) 
+    if (name_not_given)
+      match = ISIN(rx, ry, mons[i].x, mons[i].y, mons[i].width, mons[i].height);
+    else
+      match = !strcmp(XGetAtomName(dpy, mons[i].name), mon_name);
+    
+    if (match) 
     {
       ind = i;
       break;
