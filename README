@@ -2,14 +2,16 @@ micromess - a simple X pop-up
 =============================
 
 umess spawns a small pop-up window with dimensions adjusted to its contents.
-Its main aim is to get rid of ineffective and space wasting bars usage.
+Its main aim is to get rid of bars and panels usage as they waste to much
+place, distract user and, on the other hand, fail to get user's attention in 
+urgent cases, such as critical battery discharge.
 
 
 Installation
 ------------
 Edit the first lines of the Makefile to fit your preferences and run:
 
-    make install
+    $ make install
 
 
 Basic usage
@@ -17,7 +19,7 @@ Basic usage
 Following spawns a pop-up message in the right-bottom corner of active monitor,
 that would stay alive for 2 seconds: 
 
-  (printf "onelinestr\n"; sleep 2) | umess -rb
+    $ (printf "onelinestr\n"; sleep 2) | umess -rb
 
 User can specify background and foreground color, font (in Xft notation), pop-up
 position. With no option provided pop-up appears in the middle of the screen.
@@ -26,7 +28,7 @@ See manpage for more information.
 
 Examples
 --------
-Basic indicators for bspwm (bash):
+Basic indicators (bash):
 https://github.com/Negrebetskiy/dotfiles/blob/master/bin/uinfo
 
 Low battery warning (perl):

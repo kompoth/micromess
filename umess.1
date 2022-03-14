@@ -1,61 +1,47 @@
-.TH UMESS 1 "October 2021" "version 1"
+.TH UMESS 1 "March 14, 2022" ""
 .SH NAME
-umess - a simple X pop-up 
-.
+umess \- a simple X pop-up 
 .SH SYNOPSIS
-.B umess 
-.RB [ -{b|t}{l|r}|d|h ]
-.RB [ -f 
-.IR font ] 
-.RB [ -F
-.IR fgcolor] 
-.RB [ -B 
-.IR bgcolor ] 
-.RB [ -m 
-.IR monitor ]
-.
+\fBumess\fP 
+[ \fB\-{b|t}{l|r}\fP ]
+[ \fB\-f\fP \fIfont\fP ] 
+[ \fB\-F\fP \fIforeground-color\fP ] 
+[ \fB\-B\fP \fIbackground-color\fP ] 
+[ \fB\-m\fP \fImonitor-name\fP ]
+[ \fB\-d\fP ]
+[ \fB\-h\fP ]
 .SH DESCRIPTION
-.B umess 
-spawns a small pop-up window with dimensions adjusted to its contents.
-Output data is passed to stdin as an output of a user script. There are nine 
-possible pop-up positions, manual coordinates setting is not supported. 
-Program's main aim is to get rid of bars and panels usage as they waste to much
-place, distract user and, on the other hand, fail to get user's attention in 
-urgent cases, such as critical battery discharge.
-.
+.B umess
+spawns a small window with given text and dimensions adjusted to its contents.
+It stays until input stream persists, unless \fB\-d\fP option is enabled.
+It can be used for showing such data as current time or battery charge with the
+help of some hotkey daemon such as \fBxbindkeys\fP or \fBsxhkd\fP or for simple
+notifications.
 .SH OPTIONS
 .TP
-.B -{b|t}|{l|p}
-defines pop-up vertical (bottom or top) and horizontal (left or right) position. 
-With no option provided pop-up appears in the middle of the screen.
+.B \-{b|t}|{l|p}
+Specify vertical (\fBb\fPottom or \fBt\fPop) and horizontal
+(\fBl\fPeft or \fBr\fPight) position of the window. 
+With no value provided the window appears in the middle of the screen.
 .TP
-.B -d
-dies on left mouse button click.
-Usefull for important notifications that \fImust\fR be seen.
+.B \-d
+Die on the left mouse button click.
+Usefull for important and urgent notifications.
 .TP
-.B -h
-shows usage message and exits.
+.B \-h
+Print the synopsis and exit.
 .TP
-.BI -f " font"
-defines message string font. It should be provided in the Xft notation.
+.B \-f \fIfont\fP
+Specify text font. It should be provided in the Xft notation.
 .TP
-.BI -F|B " fgcolor|bgcolor"
-define message string and pop-up background colors. 
-.IR #RGB ,
-.IR #RRGGBB ,
-and X color names are supported.
-Keep in mind that hash symbol is reserved in shell,
-so hash color codes should be enclosed in quotes.
+.B \-F|B \fIforeground-color|background-color\fP
+Specify text and window background colors. 
+Hex color codes and X color names are supported.
+Keep in mind that hash symbol is reserved in shell, so hex color codes should
+be enclosed in quotes.
 .TP
-.BI -m " monitor"
-defines name of monitor on which notification will be displayed. 
-By default monitor pointed by a mouse coursor is used.
-.
-.SH SEE ALSO
-\fBumess\fR is mostly inspired by \fIlemonbar\fR and \fIdmenu\fR.
-\fIehhov\fR\'s help was invaluable.
-.
+.B \-m \fImonitor-name\fP
+Specify monitor on which the window will be displayed. 
+By default the monitor pointed by the mouse coursor is used.
 .SH AUTHOR
-Written by Vasily Negrebetskiy (kmiziz.com@gmail.com).
-.P
-The project is located at https://github.com/Negrebetskiy/micromess
+Vasily Negrebetskiy <kmiziz.com at gmail\&.com>
