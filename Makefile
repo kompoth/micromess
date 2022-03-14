@@ -2,7 +2,7 @@ PREFIX = /usr/local
 MANPREFIX = ${PREFIX}/share/man
 
 PROJ = umess
-CC = cc
+CC = gcc
 CFLAGS = -std=c99 -Wall -pedantic -Os -D_POSIX_C_SOURCE=200809L
 LIBS = -lX11 -lXft -lfontconfig -lXrandr
 INCS = -I/usr/include/freetype2
@@ -18,7 +18,7 @@ install: all
 	chmod 644 ${MANPREFIX}/man1/${PROJ}.1
 
 ${PROJ}: ${PROJ}.c
-	${CC} ${CFLAGS} ${LIBS} ${INCS} $< -o $@
+	${CC} ${CFLAGS} ${INCS} $< -o $@ ${LIBS}
 
 uninstall:
 	rm -f ${PREFIX}/bin/${PROJ}
@@ -27,4 +27,4 @@ uninstall:
 clean:
 	rm -f ${PROJ}
 
-.PHONY: all clean uninstall
+.PHONY: all clean install uninstall
