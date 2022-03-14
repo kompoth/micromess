@@ -29,7 +29,7 @@ See manpage for more information.
 Examples
 --------
 Basic indicators (bash):
-https://github.com/Negrebetskiy/dotfiles/blob/master/bin/uinfo
+https://github.com/kompoth/dotfiles/blob/master/bin/uinfo
 
 Low battery warning (perl):
-https://github.com/Negrebetskiy/dotfiles/blob/master/bin/ubatloop 
+https://github.com/kompoth/dotfiles/blob/master/bin/ubatloop 
