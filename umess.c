@@ -22,6 +22,7 @@ char *mon_name;
 int mx, my, mw, mh;
 
 /* General variables */
+char *appname = "umess";
 int screen;
 Display *dpy;
 Window root, win;
@@ -138,6 +139,7 @@ spawn_window(const char *colordescr)
 {
   XColor wincolor;
   XSetWindowAttributes swa;
+  XClassHint *class_hint;
 
   swa.override_redirect = True;  // unmanageable from wm
   swa.background_pixel = XWhitePixel(dpy, screen);
@@ -148,7 +150,17 @@ spawn_window(const char *colordescr)
   XParseColor(dpy, cmap, colordescr, &wincolor);
   XAllocColor(dpy, cmap, &wincolor);
   XSetWindowBackground(dpy, win, wincolor.pixel);
-  
+
+  /* Set WM_NAME property, name and class hints */
+  XStoreName(dpy, win, appname);
+  class_hint = XAllocClassHint();
+  if (class_hint) {
+    class_hint->res_name = appname;
+    class_hint->res_class = appname;
+  }
+  XSetClassHint(dpy, win, class_hint);
+  XFree(class_hint);
+
   XSelectInput(dpy, win, ExposureMask|ButtonPressMask);
   XMapRaised(dpy, win);
   XFlush(dpy);
