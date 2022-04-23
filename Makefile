@@ -1,5 +1,6 @@
-PREFIX = /usr/local
-MANPREFIX = ${PREFIX}/share/man
+PREFIX ?= /usr
+BINDIR = ${PREFIX}/bin
+MANDIR = ${PREFIX}/share/man/man1
 
 PROJ = umess
 CC = gcc
@@ -10,19 +11,19 @@ INCS = -I/usr/include/freetype2
 all: ${PROJ}
 
 install: all
-	mkdir -p ${PREFIX}/bin
-	cp -f ${PROJ} ${PREFIX}/bin
-	chmod 755 ${PREFIX}/bin/${PROJ}
-	mkdir -p ${MANPREFIX}/man1
-	cp -f ${PROJ}.1 ${MANPREFIX}/man1
-	chmod 644 ${MANPREFIX}/man1/${PROJ}.1
+	mkdir -p ${BINDIR}
+	cp -f ${PROJ} ${BINDIR}
+	chmod 755 ${BINDIR}/${PROJ}
+	mkdir -p ${MANDIR}
+	cp -f ${PROJ}.1 ${MANDIR}
+	chmod 644 ${MANDIR}/${PROJ}.1
 
 ${PROJ}: ${PROJ}.c
 	${CC} ${CFLAGS} ${INCS} $< -o $@ ${LIBS}
 
 uninstall:
-	rm -f ${PREFIX}/bin/${PROJ}
-	rm -f ${MANPREFIX}/man1/${PROJ}.1
+	rm -f ${BINDIR}/${PROJ}
+	rm -f ${MANDIR}/${PROJ}.1
 
 clean:
 	rm -f ${PROJ}
