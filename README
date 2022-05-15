@@ -1,10 +1,10 @@
 micromess - a simple X pop-up 
 =============================
 
-umess spawns a small pop-up window with dimensions adjusted to its contents. Its main aim
-is to get rid of bars and panels usage as they waste too much place, distract user and, on
-the other hand, fail to get user's attention in urgent cases, such as critical battery 
-discharge.
+umess spawns a small pop-up window with dimensions adjusted to its contents. Its
+main aim is to get rid of bars and panels usage as they waste too much place,
+distract user and, on the other hand, fail to get user's attention in urgent
+cases, such as critical battery discharge.
 
 
 Installation
@@ -13,16 +13,20 @@ Edit the first lines of the Makefile to fit your preferences and run:
 
     $ make install
 
+Arch Linux users can get umess from AUR:
+https://aur.archlinux.org/packages/umess-git
+Great thanks to RaafatTurki, who maintains this package.
+
 
 Basic usage
 -----------
-Following spawns a pop-up message in the right-bottom corner of active monitor, that would
-stay alive for 2 seconds: 
+Following spawns a pop-up message in the right-bottom corner of active monitor, 
+that would stay alive for 2 seconds: 
 
     $ (printf "onelinestr\n"; sleep 2) | umess -rb
 
-User can specify colors, font (in Xft notation) and pop-up position. By default it appears
-in the center of the screen. See manpage for more information.
+User can specify colors, font (in Xft notation) and pop-up position. By default it 
+appears in the center of the screen. See manpage for more options.
 
 
 Examples
@@ -31,4 +35,4 @@ Basic indicators (bash):
 https://github.com/kompoth/dotfiles/blob/master/scripts/uinfo
 
 Low battery warning (perl):
-https://github.com/kompoth/dotfiles/blob/master/scripts/ubatloop 
+https://github.com/kompoth/dotfiles/blob/master/scripts/ubatloop
